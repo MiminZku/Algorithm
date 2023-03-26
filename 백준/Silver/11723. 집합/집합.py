@@ -1,5 +1,7 @@
 import sys; input = lambda:sys.stdin.readline().rstrip()
 
+all_set = [1 for _ in range(21)]
+zero_set = [0 for _ in range(21)]
 s = [0 for _ in range(21)]
 m = int(input())
 for _ in range(m):
@@ -11,12 +13,12 @@ for _ in range(m):
     elif args[0] == 'remove':
         s[n] = 0
     elif args[0] == 'check':
-        print(s[n])
+        sys.stdout.write(str(s[n])+'\n')
     elif args[0] == 'toggle':
         s[n] = 0 if s[n] == 1 else 1
     elif args[0] == 'all':
-        s = [1 for _ in range(21)]
+        s = all_set
     elif args[0] == 'empty':
-        s = [0 for _ in range(21)]        
+        s = zero_set        
     else:
         print("wrong command")
