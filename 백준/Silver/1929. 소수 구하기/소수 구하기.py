@@ -1,16 +1,15 @@
-import sys; input = lambda : sys.stdin.readline().rstrip()
-import math
+m, n = map(int, input().split())
 
-n, m = map(int,input().split())
-arr = [True] * (m+1)
-arr[1] = False
+def prime_list(m, n):
+    prime = [True] * (n+1)
+    prime[0], prime[1] = False, False
+    tmp = int(n**0.5)
+    for i in range(2, tmp+1):
+        if prime[i] == True:
+            for j in range(2*i, n+1, i):
+                prime[j] = False
+    return [i for i in range(m, n+1) if prime[i] == True]
 
-end = int(math.sqrt(m))
-for i in range(2,end+1):
-    if arr[i] == True:
-        for j in range(2*i, m+1, i):
-            arr[j] = False
-            
-for i in range(n,m+1):
-    if arr[i] == True:
-        print(i)
+
+for i in prime_list(m, n):
+    print(i)
