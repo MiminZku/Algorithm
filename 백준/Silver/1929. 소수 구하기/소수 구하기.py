@@ -7,9 +7,9 @@ arr[1] = False
 
 end = int(math.sqrt(m))
 for i in range(2,end+1):
-    if arr[i] == False:  continue
-    for j in range(2*i, m+1, i):
-        arr[j] = False
+    if arr[i] == True:
+        for j in range(2*i, m+1, i):
+            arr[j] = False
             
 for i in range(n,m+1):
     if arr[i] == True:
