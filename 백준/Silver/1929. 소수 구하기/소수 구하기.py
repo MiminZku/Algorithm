@@ -7,10 +7,8 @@ arr[1] = False
 
 for i in range(2,int(math.sqrt(m))+1):
     if arr[i] == False:  continue
-    j = 2
-    while i*j <= m:
-        arr[i*j] = False
-        j += 1
+    for j in range(2*i, m+1, i):
+        arr[j] = False
             
 for i in range(n,m+1):
     if arr[i] == True:
