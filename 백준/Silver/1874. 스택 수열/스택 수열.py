@@ -13,16 +13,15 @@ for idx in range(arr[0]-1):
     next += 1
 
 idx = 0
-while idx < n:
-    if arr[idx] not in stack and arr[idx] < next:
-        print('NO')
-        exit()
-    
+while idx < n:    
     if arr[idx] < next:
         top = stack.pop()
         ans.append('-')
         if arr[idx] == top:
             idx += 1
+        else:
+            print('NO')
+            exit()
     elif arr[idx] > next:
         stack.append(next)
         ans.append('+')
