@@ -1,10 +1,8 @@
 def check(lens,m):
-    sum = 0
-    for l in lens:
-        sum += l // m
-    if sum >= n:
+    if sum(l//m for l in lens) >= n:
         return True
-    return False
+    else:
+        return False
 
 k, n = map(int,input().split())
 lens = [int(input()) for _ in range(k)]
