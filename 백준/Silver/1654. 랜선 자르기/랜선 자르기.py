@@ -1,3 +1,5 @@
+import sys; input = lambda: sys.stdin.readline().rstrip()
+
 def check(m):
     if sum(l//m for l in lens) >= n:
         return True
