@@ -12,7 +12,7 @@ def bfs():
             return visited[cur] 
         navers = [cur-1, cur+1, cur*2]
         for naver in navers:
-            if naver < 0 or naver > 200000: continue
+            if naver < 0 or naver > 100000: continue
             if visited.get(naver, -1) >= 0:   continue
             q.append(naver)
             visited[naver] = visited[cur]+1
