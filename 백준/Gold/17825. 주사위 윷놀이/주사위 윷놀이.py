@@ -43,11 +43,11 @@ board = (
     (31, 38, (12,)),
     (32, 0, (32,)) # 도착
 )
-state = [0,0,0,0]   # 말들의 현재 인덱스(오름차순)
+state = [0,0,0,0]   # 말들의 현재 인덱스
 
 ### logic
 def answer(state):
-    max_score = 0    
+    max_score = 0
     q = deque()
     q.append((state, 0, 0))        # 상태, 여태 얻은 점수, 주사위 굴린 횟수
     while q:
@@ -77,8 +77,7 @@ def move(state, idx, n):    # 현재 state에서 idx번째에 있는 말 하나�
         return [], -1   # 이동을 마친 칸에 이미 말이 있는 경우
     
     state[idx] = horse_loc
-    gain = board[horse_loc][SCORE]
-    return sorted(state), gain
+    return state, board[horse_loc][SCORE]
 
 ### output
 print(answer(state))
