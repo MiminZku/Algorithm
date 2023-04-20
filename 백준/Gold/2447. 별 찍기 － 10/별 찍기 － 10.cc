@@ -18,7 +18,6 @@ void star(int rS, int rE, int cS, int cE){
 }
 
 int main(){
-    ios_base::sync_with_stdio(false);
     int n;
     cin>>n;
     
@@ -32,8 +31,8 @@ int main(){
 
     for(int i = 1; i <= n; i++){
         for(int j = 1; j <= n; j++){
-            cout<<arr[i][j];
+            printf("%c",arr[i][j]);
         }
-        cout<<'\n';
+        printf("\n");
     }
 }
