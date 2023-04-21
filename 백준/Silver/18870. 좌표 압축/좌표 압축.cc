@@ -25,19 +25,24 @@ int BinarySearch(vector<int>& vec, int start, int end, int target){
 
 int main(){
     scanf("%d",&n);
-    vector<int> sorted; int org[n];
+    int arr[n]; int org[n];
     for(int i = 0; i<n ; i++){
         int x;
         scanf("%d", &x);
+        arr[i] = x;
         org[i] = x;
-        sorted.push_back(x); 
     }
-    sort(sorted.begin(), sorted.end());
-    vector<int> uniq_arr(sorted);
-    uniq_arr.erase(unique(uniq_arr.begin(),uniq_arr.end()),uniq_arr.end());
+    sort(arr, arr+n);
+    vector<int> de_duplicate_arr;
+    de_duplicate_arr.push_back(arr[0]);
+    for(int i=1; i<n; i++){
+        if(arr[i] != arr[i-1]){
+            de_duplicate_arr.push_back(arr[i]);
+        }
+    }
 
     for(int i: org){
-        printf("%d ",BinarySearch(uniq_arr, 0, uniq_arr.size()-1, i));
+        printf("%d ",BinarySearch(de_duplicate_arr, 0, de_duplicate_arr.size()-1, i));
     }
     printf("\n");
     return 0;
