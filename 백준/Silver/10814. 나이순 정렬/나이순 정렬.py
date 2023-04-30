@@ -1,3 +1,5 @@
+import sys; input = lambda : sys.stdin.readline().rstrip()
+
 n = int(input())
 age_lst = [[] for _ in range(201)]
 for _ in range(n):
