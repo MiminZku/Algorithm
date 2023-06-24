@@ -1,12 +1,13 @@
 #include <iostream>
-#include <set>
+#include <unordered_set>
 
 #define fastio cin.tie(nullptr); ios::sync_with_stdio(false);
 
 using namespace std;
 
 int main(){
-    set<int> sangn;
+    fastio;
+    unordered_set<int> sangn;
     int n;
     cin>>n;
     for(int i=0; i<n; i++){
