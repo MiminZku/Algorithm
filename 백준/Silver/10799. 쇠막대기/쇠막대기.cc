@@ -3,10 +3,7 @@
 
 using namespace std;
 
-int main(){
-    cin.tie(nullptr); ios::sync_with_stdio(false);
-
-    string str;
+int main(){string str;
     cin>>str;
 
     vector<int> stack;
@@ -16,16 +13,14 @@ int main(){
         if(ch == '('){
             stack.push_back(1);
         }
-        else if(ch == ')'){
+        else{
             if(prev == '('){    // 레이저인 경우
                 stack.pop_back();
-                for(int i=0; i<stack.size(); i++){
-                    stack[i] += 1;
-                }
+                res += stack.size();
             }
-            else{
-                res += stack[stack.size()-1];
+            else{ // 막대기 끝날 때
                 stack.pop_back();
+                res++;
             }
         }
         prev = ch;
