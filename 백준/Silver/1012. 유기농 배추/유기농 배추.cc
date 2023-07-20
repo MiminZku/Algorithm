@@ -1,53 +1,83 @@
 #include <iostream>
-#include <vector>
-
+#include <queue>
 using namespace std;
 
-int dy[4] = {0,0,-1,1};
-int dx[4] = {-1,1,0,0};
+void BFS(bool (&field)[50][50], pair<int, int> idx, int n, int m) {
+   // bfs에 쓰일 큐
+   queue<pair<int, int>> q;
+   q.push(idx);
 
-void Paint(vector<vector<int>>& mat, int r, int c, int color){
-    mat[r][c] = color;
-    
-    for(int i=0; i<4; i++){
-        int ny = dy[i] + r;
-        int nx = dx[i] + c;
-        if(ny < 0 || nx < 0 || ny >= mat.size() || nx >= mat[0].size()) continue;
-        if(mat[ny][nx] < 0) 
-            Paint(mat, ny, nx, color);
-    }
+   int i, j;
+   pair<int, int> tmp;
+
+   while (!q.empty()) {
+      tmp = q.front();
+      // 인접한 애들 큐에 넣어줌 .. 이게 맞나
+      if (tmp.second != m - 1 && field[tmp.first][tmp.second + 1])
+         if(field[tmp.first][tmp.second] == 1)
+            q.push(make_pair(tmp.first, tmp.second + 1));
+      if (tmp.second != 0 && field[tmp.first][tmp.second - 1]) 
+         if(field[tmp.first][tmp.second] == 1)
+            q.push(make_pair(tmp.first, tmp.second - 1));
+      if (tmp.first != n - 1 && field[tmp.first + 1][tmp.second])
+         if(field[tmp.first][tmp.second] == 1)
+            q.push(make_pair(tmp.first + 1, tmp.second));
+      if (tmp.first != 0 && field[tmp.first - 1][tmp.second])
+         if(field[tmp.first][tmp.second] == 1)
+            q.push(make_pair(tmp.first - 1, tmp.second));
+      // field 수정후 pop
+      field[tmp.first][tmp.second] = 0;
+      q.pop();
+   }
 }
 
-int main(){
-    cin.tie(nullptr); ios::sync_with_stdio(false);
-    int t;
-    cin>>t;
+int main() {
+   ios_base::sync_with_stdio(false);
+   cin.tie(NULL);
+   cout.tie(NULL);
 
-    while(t--){
-        int m,n,k;
-        cin>>m>>n>>k;
-        
-        vector<vector<int>> mat;
-        mat.resize(n);
-        for(int i=0; i<n; i++)  mat[i].resize(m);
+   int t;
+   int m, n, k;
+   int i, j;
 
-        while(k--){
-            int x,y;
-            cin>>x>>y;
-            mat[y][x] = -1;
-        }
+   int wormCount = 0;
+   //bool** field = new bool*[50];
+   //for (int i = 0; i < 50; i++) field[i] = new bool[50];
+   bool field[50][50];
 
-        int color = 0;
-        for(int i=0; i<n; i++){
-            for(int j=0; j<m; j++){
-                if(mat[i][j] < 0)   Paint(mat, i, j, ++color);
+   cin >> t;
+   while (t--) {
+      cin >> m >> n >> k;
+      // 밭 배열 생성 & 초기화
+      //field = new bool*[n];
+      //for (int a = 0; a < n; a++) field[a] = new bool[m];
+      for (int i = 0; i < n; i++) {
+         for (int j = 0; j < m; j++) {
+            field[i][j] = 0;
+         }
+      }
+      //for(int a = 0; a < n; a++) memset(field, false, sizeof(field));
+      //fill_n(&field[0][0], n * m, 0);
+      //fill(&field[0][0], &field[n - 1][m], 0);
+      
+      // 배추 심기
+      while (k--) {
+         // j가 x 즉 열 i 가 행 y
+         cin >> j >> i;
+         field[i][j] = 1;
+      }
+      // 밭 전체 탐색하면서 흰지렁이 탐색
+      for (int i = 0; i < n; i++) {
+         for (int j = 0; j < m; j++) {
+            if (field[i][j]) {
+               wormCount++;
+               //BFS
+               BFS(field, make_pair(i, j), n, m);
             }
-        }
-        // for(int i=0; i<n; i++){
-        //     for(int j=0; j<m; j++){
-        //         cout<<mat[i][j]<<' ';
-        //     }cout<<endl;
-        // }
-        cout<<color<<'\n';
-    }
+         }
+      }
+      cout << wormCount << "\n";
+      wormCount = 0;
+   }
+
 }
