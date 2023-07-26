@@ -7,24 +7,24 @@ char picture1[100][101];    // 비색약
 char picture2[100][101];    // 색약
 int cnt1, cnt2;
 
+int dy[4] = {0,0,-1,1};
+int dx[4] = {1,-1,0,0};
+
 void Paint(char picture[100][101], int row, int col){
     char org = picture[row][col];
     picture[row][col] = 0;
-    bool visited[100][100] = {};
-    visited[row][col] = true;
-    int dy[4] = {0,0,-1,1};
-    int dx[4] = {1,-1,0,0};
+    
     for(int i=0; i<4; i++){
         int ny = row + dy[i];
         int nx = col + dx[i];
         if(ny<0 || nx<0 || ny>=n || nx>=n)  continue;
         if(picture[ny][nx]!=org)  continue;
-        if(visited[ny][nx]) continue;
         Paint(picture, ny, nx);
     }
 }
 
 int main(){
+    cin.tie(nullptr); ios::sync_with_stdio(false);
     cin>>n;
     for(int i=0; i<n; i++){
         char str[101];
