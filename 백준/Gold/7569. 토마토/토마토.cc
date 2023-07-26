@@ -1,6 +1,5 @@
 #include <iostream>
 #include <queue>
-#include <vector>
 using namespace std;
 
 typedef pair<int,pair<int,int>> Pos;
@@ -16,18 +15,14 @@ int main(){
     cin.tie(nullptr); ios::sync_with_stdio(false);
     cin>>m>>n>>h;
     int mat[h][n][m];
-    vector<Pos> start;
+    queue<pair<Pos,int>> q;
     for(int k=0; k<h; k++){
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
                 cin>>mat[k][i][j];
-                if(mat[k][i][j]==1)   start.push_back({k,{i,j}});
+                if(mat[k][i][j]==1)   q.push({{k,{i,j}},0});
             }
         }
-    }
-    queue<pair<Pos,int>> q;
-    for(Pos p : start){
-        q.push({p,0});
     }
     
     int res = 0;
