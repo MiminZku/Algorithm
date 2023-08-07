@@ -2,70 +2,77 @@
 #include <queue>
 
 using namespace std;
- 
-#define X first 
-#define Y second 
 
-int dx[4] = {0, -1, 0, 1};
-int dy[4] = {1, 0 , -1, 0};
- 
-vector<pair<int, int>> avail[101][101];
-bool visited[101][101]; 
-bool on[101][101]; 
-int cnt = 0;
-int n, m;
+#define Y first
+#define X second
 
-void bfs() {
-    queue<pair<int, int>> Q;
-    Q.push({ 1, 1 });
-    visited[1][1] = true;
-    on[1][1] = true;
-    cnt++;
-    for (auto room : avail[1][1]) {
-        if (!on[room.X][room.Y]) {
-            on[room.X][room.Y] = true;
-            cnt++;
-        }
+bool room[101][101];
+bool visited[101][101];
+int n,m;
+vector<pair<int,int>> navers[101][101];
+queue<pair<int,int>> q;
+
+int dy[4] = {-1,1,0,0};
+int dx[4] = {0,0,-1,1};
+
+int main()
+{
+    cin.tie(nullptr); ios::sync_with_stdio(false);
+    cin>>n>>m;
+    while(m--)
+    {
+        int x,y,a,b;
+        cin>>x>>y>>a>>b;
+        navers[x][y].push_back({a,b});
     }
-    while (!Q.empty()) {
-        auto cur = Q.front(); Q.pop();
-        for (auto& room : avail[cur.X][cur.Y]) {
-            if (!on[room.X][room.Y]) {
-                on[room.X][room.Y] = true;
-                cnt++;
-                for (int dir = 0; dir < 4; dir++) {
-                    int nx = room.X + dx[dir];
-                    int ny = room.Y + dy[dir];
-                    if (nx < 1 || ny < 1 || nx> n || ny >n)continue;
-                    if (visited[nx][ny]) {
-                        Q.push({ room.X, room.Y });
-                        visited[room.X][room.Y] = true;
-                        break;
-                    }
-                }
+    
+    room[1][1] = true;
+    visited[1][1] = true;
+    q.push({1,1});
+    while(!q.empty())
+    {
+        int cy = q.front().Y;
+        int cx = q.front().X;
+        q.pop();
+
+        for(pair<int,int>& naver : navers[cy][cx])
+        {
+            if(room[naver.Y][naver.X]) continue;
+            room[naver.Y][naver.X] = true;
+            
+            for(int i=0; i<4; i++)
+            {
+                int ny = naver.Y + dy[i];
+                int nx = naver.X + dx[i];
+                if(ny<1 || nx<1 || ny>n || nx>n)    continue;
+                if(!visited[ny][nx])    continue;
+                visited[naver.Y][naver.X] = true;
+                q.push({naver.Y, naver.X});
+                break;
             }
         }
-        for (int dir = 0; dir < 4; dir++) {
-            int nx = cur.X + dx[dir];
-            int ny = cur.Y + dy[dir];
-            if (nx < 1 || ny < 1 || nx> n || ny >n)continue;
-            if (!on[nx][ny] || visited[nx][ny]) continue;
-            Q.push({ nx, ny });
-            visited[nx][ny] = true;
+
+        for(int i=0; i<4; i++)
+        {
+            int ny = cy + dy[i];
+            int nx = cx + dx[i];
+            if(ny<1 || nx<1 || ny>n || nx>n)    continue;
+            if(!room[ny][nx])   continue;
+            if(visited[ny][nx]) continue;
+            visited[ny][nx] = true;
+            q.push({ny,nx});
+        }
+
+    }
+
+    
+    int result=0;
+    for(int i=1; i<=n; i++)
+    {
+        for(int j=1; j<=n; j++)
+        {
+            if(room[i][j]) result++;
         }
     }
-}
- 
-int main(void) {
-    cin.tie(nullptr); ios::sync_with_stdio(false);
-    cin >> n >> m;
-    for (int i = 0; i < m; i++) {
-        int x, y, a, b;
-        cin >> x >> y >> a >> b;
-        avail[x][y].push_back({ a, b });
-    }
-    bfs();
-    cout << cnt << endl;
- 
-    return 0;
+    cout<<result<<endl;
 }
