@@ -6,7 +6,6 @@ using namespace std;
 int n,m;
 int nums[8];
 int path[8];
-bool visited[8];
 
 void Recur(int level, int start)
 {
@@ -27,16 +26,14 @@ void Recur(int level, int start)
     int pre=0;
     for(int i=start; i<n; i++){
         if(nums[i] == pre)  continue;
-        if(visited[i])      continue;
-        visited[i] = true;
         pre = nums[i];
         path[level] = nums[i];
         Recur(level+1, i+1);
-        visited[i] = false;
     }
 }
 
 int main(){
+    cin.tie(nullptr); ios::sync_with_stdio(false);
     cin>>n>>m;
     for(int i=0; i<n; i++)  cin>>nums[i];
     sort(nums, nums+n);
