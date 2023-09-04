@@ -10,20 +10,16 @@ bool rowCheck[15];
 bool rightDown[30];
 bool rightUp[30];
 
-void Solve(int col){
-    if(col == n){
+void Solve(int col)
+{
+    if(col == n)
+    {
         result++;
-        // for(int i=0; i<n; i++){
-        //     for(int j=0; j<n; j++){
-        //         cout<<board[i][j]<<' ';
-        //     }
-        //     cout<<endl;
-        // }
-        // cout<<endl;
         return;
     }
 
-    for(int row=0; row<n; row++){
+    for(int row=0; row<n; row++)
+    {
         if(rowCheck[row] || rightDown[n+col-row] || rightUp[col+row])  continue;
         rowCheck[row] = true;
         rightDown[n+col-row] = true;
@@ -37,7 +33,8 @@ void Solve(int col){
     }
 }
 
-int main(){
+int main()
+{
     cin>>n;
 
     Solve(0);
