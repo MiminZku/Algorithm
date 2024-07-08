@@ -1,11 +1,11 @@
 #include <iostream>
-#include <set>
+#include <vector>
 #include <queue>
 
 using namespace std;
 
 int n,m;
-set<int> navers[101];
+vector<int> navers[101];
 int dist[101][101];
 
 
@@ -35,8 +35,8 @@ int main(){
     for(int i=0; i<m; i++){
         int a,b;
         cin>>a>>b;
-        navers[a].insert(b);
-        navers[b].insert(a);
+        navers[a].push_back(b);
+        navers[b].push_back(a);
     }
 
     int min = 10000; int res;
