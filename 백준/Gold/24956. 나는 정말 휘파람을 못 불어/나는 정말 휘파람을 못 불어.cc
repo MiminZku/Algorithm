@@ -16,20 +16,17 @@ int main()
 	for (int i = 1; i <= n; ++i)
 	{
 		cin >> str[i];
-		if ('W' == str[i])	prefixW[i] = 1;
-		if ('E' == str[i])	suffixE[i] = 1;
+		prefixW[i] = prefixW[i - 1] + ('W' == str[i]);
 	}
-	for (int i = 1, j = n; i <= n; ++i, --j)
+	for (int j = n; j >= 1; --j)
 	{
-		prefixW[i] += prefixW[i - 1];
-		suffixE[j] += suffixE[j + 1];
+		suffixE[j] = suffixE[j + 1] + ('E' == str[j]);
 	}
 
 	unsigned long long temp = 1;
 	for (int i = 1; i <= suffixE[1]; ++i)
 	{
-		temp *= 2;
-		temp %= mod;
+		temp = temp * 2 % mod;
 		powArr[i] = temp;
 	}
 
@@ -37,10 +34,10 @@ int main()
 	for (int i = 1; i <= n; ++i)
 	{
 		if ('H' != str[i])	continue;
-		if (suffixE[i] < 2)	continue;
-		unsigned long long temp = powArr[suffixE[i]] - (1 + suffixE[i]);		
-		res += prefixW[i] * temp;
-		res %= mod;
+		if (suffixE[i] < 2)	break;
+		
+		unsigned long long temp = powArr[suffixE[i]] - (1 + suffixE[i]);
+		res = (res + prefixW[i] * temp) % mod;
 	}
 	cout << res << endl;
 }
