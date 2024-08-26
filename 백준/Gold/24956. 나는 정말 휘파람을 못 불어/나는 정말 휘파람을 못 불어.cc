@@ -38,11 +38,7 @@ int main()
 	{
 		if ('H' != str[i])	continue;
 		if (suffixE[i] < 2)	continue;
-		unsigned long long temp = powArr[suffixE[i]] - (1 + suffixE[i]);
-		
-		// ??
-		if (temp < 0)	temp = 0;
-		
+		unsigned long long temp = powArr[suffixE[i]] - (1 + suffixE[i]);		
 		res += prefixW[i] * temp;
 		res %= mod;
 	}
