@@ -1,27 +1,38 @@
 #include <iostream>
+#include <vector>
+#include <memory.h>
 
 using namespace std;
 
+int triangle[500][500];
+int dp[500][500];
 int n;
-int maxSum;
-int mat[500][500];  // 누적합
 
-int main(){
+int Recur(int level, int col)
+{
+    if(level == n - 1) return triangle[level][col];
+    
+    if(dp[level][col] != -1) return dp[level][col];
+    
+    int temp = 0;
+    for(int i=col; i <= col + 1; ++i)
+    {
+        temp = max(temp, Recur(level + 1, i));
+    }    
+    return dp[level][col] = temp + triangle[level][col];
+}
+
+int main() 
+{
     cin.tie(nullptr); ios::sync_with_stdio(false);
+    memset(dp, -1, sizeof(dp));
     cin>>n;
-    cin>>maxSum;
-    mat[0][0] = maxSum;
-    for(int i=1; i<n; i++){
-        for(int j=0; j<=i; j++){
-            int k;
-            cin>>k;
-            int temp;
-            if(j==0)        temp = k + mat[i-1][0];
-            else if(j==i)   temp = k + mat[i-1][j-1];
-            else    temp = max(k + mat[i-1][j-1], k + mat[i-1][j]);
-            mat[i][j] = temp;
-            maxSum = max(maxSum, temp);
+    for(int i=0; i<n; ++i)
+    {
+        for(int j=0; j<=i; ++j)
+        {
+            cin>>triangle[i][j];
         }
     }
-    cout<<maxSum<<endl;
+    cout<< Recur(0, 0) << endl;
 }
