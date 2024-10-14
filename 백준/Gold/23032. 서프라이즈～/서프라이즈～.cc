@@ -28,14 +28,17 @@ int main()
 			int diff = abs(leftSum - rightSum);
 
 
-			if (diff < minDiff)
+			if (diff <= minDiff)
 			{
-				minDiff = diff;
-				ans = leftSum + rightSum;
-			}
-			else if (diff == minDiff)
-			{
-				ans = max(ans, leftSum + rightSum);
+				if (diff < minDiff)
+                {
+				    minDiff = diff;                    
+					ans = cumSum[e] - cumSum[s - 1];
+                }
+				else
+                {
+					ans = max(ans, cumSum[e] - cumSum[s - 1]);
+                }
 			}
 
 			if (leftSum > rightSum)
