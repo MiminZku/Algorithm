@@ -31,14 +31,11 @@ int main()
 			if (diff <= minDiff)
 			{
 				if (diff < minDiff)
-                {
-				    minDiff = diff;                    
 					ans = cumSum[e] - cumSum[s - 1];
-                }
 				else
-                {
 					ans = max(ans, cumSum[e] - cumSum[s - 1]);
-                }
+                
+				minDiff = diff;
 			}
 
 			if (leftSum > rightSum)
