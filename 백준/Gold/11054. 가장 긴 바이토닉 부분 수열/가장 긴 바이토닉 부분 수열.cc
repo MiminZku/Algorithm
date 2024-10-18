@@ -5,39 +5,39 @@ using namespace std;
 
 int n;
 int arr[1000];
-int leftMemo[1000][1001];
-int rightMemo[1000][1001];
+int leftMemo[1000];
+int rightMemo[1000];
 
-int Left(int curIdx, int prevValue) // curIdx 를 기준으로 왼쪽으로 계속 작아지는 부분 수열의 최대 길이
+int Left(int curIdx) // curIdx 를 기준으로 왼쪽으로 계속 작아지는 부분 수열의 최대 길이
 {
-	if (curIdx < 0) return 0;
+	if (leftMemo[curIdx] != -1) return leftMemo[curIdx];
 
-	if (leftMemo[curIdx][prevValue] != -1) return leftMemo[curIdx][prevValue];
-
-	int ret = 0;
-	if (arr[curIdx] < prevValue)
+	int ret = 1;
+	for (int i = curIdx - 1; i >= 0; --i)
 	{
-		ret = max(ret, 1 + Left(curIdx - 1, arr[curIdx]));
+		if (arr[i] < arr[curIdx])
+		{
+			ret = max(ret, 1 + Left(i));
+		}
 	}
-	ret = max(ret, Left(curIdx - 1, prevValue));
 
-	return leftMemo[curIdx][prevValue] = ret;
+	return leftMemo[curIdx] = ret;
 }
 
-int Right(int curIdx, int prevValue) // curIdx 를 기준으로 오른쪽으로 계속 작아지는 부분 수열의 최대 길이
+int Right(int curIdx) // curIdx 를 기준으로 오른쪽으로 계속 작아지는 부분 수열의 최대 길이
 {
-	if (curIdx >= n) return 0;
+	if (rightMemo[curIdx] != -1) return rightMemo[curIdx];
 
-	if (rightMemo[curIdx][prevValue] != -1) return rightMemo[curIdx][prevValue];
-
-	int ret = 0;
-	if (arr[curIdx] < prevValue)
+	int ret = 1;
+	for (int i = curIdx + 1; i < n; ++i)
 	{
-		ret = max(ret, 1 + Right(curIdx + 1, arr[curIdx]));
+		if (arr[i] < arr[curIdx])
+		{
+			ret = max(ret, 1 + Right(i));
+		}
 	}
-	ret = max(ret, Right(curIdx + 1, prevValue));
 
-	return rightMemo[curIdx][prevValue] = ret;
+	return rightMemo[curIdx] = ret;
 }
 
 
@@ -56,7 +56,7 @@ int main()
 	int ans = 0;
 	for (int i = 0; i < n; ++i)
 	{
-		ans = max(ans, 1 + Left(i, arr[i]) + Right(i, arr[i]));
+		ans = max(ans, Left(i) + Right(i) - 1);
 	}
 
 	cout << ans << endl;
