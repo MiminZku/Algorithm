@@ -1,35 +1,43 @@
 #include <iostream>
-#include <vector>
+#include <memory.h>
 
 using namespace std;
 
 int n;
-vector<int> arr;
+int arr[1000];
+int dp[1000];
 
-int LIS_table[1001][1001];
+int LIS(int idx)	// idx 인덱스부터 끝까지의 LIS
+{
+	if (dp[idx] != -1) return dp[idx];
 
-int main(){
-    cin.tie(nullptr); ios::sync_with_stdio(false);
-    cin>>n;
-    arr.push_back(0);
-    for(int i=0; i<n; i++){
-        int k;
-        cin>>k;
-        arr.push_back(k);
-    }
+	int tmp = 1;
+	for (int i = idx + 1; i < n; ++i)
+	{
+		if (arr[i] > arr[idx])
+		{
+			tmp = max(tmp, 1 + LIS(i));
+		}
+	}
 
-    for(int i=n; i>=0; i--){
-        for(int j=n; j>0; j--){
-            if(j==i){
-                LIS_table[i][j] = 1;
-                continue;
-            }
-            if(arr[i] < arr[j])
-                LIS_table[i][j] = max(LIS_table[i][j+1], 1+LIS_table[j][j+1]);
-            else
-                LIS_table[i][j] = LIS_table[i][j+1];
-        }
-    }
-    
-    cout<<LIS_table[0][1]<<endl;
+	return dp[idx] = tmp;
+}
+
+int main()
+{
+	memset(dp, -1, sizeof(dp));
+	cin.tie(nullptr); ios::sync_with_stdio(false);
+	cin >> n;
+	for (int i = 0; i < n; ++i)
+	{
+		cin >> arr[i];
+	}
+
+	int lis = 0;
+	for (int i = 0; i < n; ++i)
+	{
+		lis = max(lis, LIS(i));
+	}
+
+	cout << lis << endl;
 }
