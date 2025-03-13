@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <vector>
 #include <string>
-#include <unordered_map>
 
 using namespace std;
 
@@ -12,7 +11,7 @@ int n;
 struct TrieNode
 {
 	bool isEnd = false;
-	unordered_map<char, TrieNode*> children;
+	TrieNode* children[10];
 };
 
 class Trie
@@ -30,11 +29,11 @@ public:
 		TrieNode* node = root;
 		for (char c : str)
 		{
-			if (node->children.find(c) == node->children.end())
+			if (node->children[c - '0'] == nullptr)
 			{
-				node->children[c] = new TrieNode();
+				node->children[c - '0'] = new TrieNode();
 			}
-			node = node->children[c];	
+			node = node->children[c - '0'];
 		}
 		node->isEnd = true;
 	}
@@ -50,11 +49,11 @@ public:
 				return true;
 			}
 
-			if (node->children.find(c) == node->children.end())
+			if (node->children[c - '0'] == nullptr)
 			{
 				break;
 			}
-			node = node->children[c];
+			node = node->children[c - '0'];
 		}
 		return false;
 	}
