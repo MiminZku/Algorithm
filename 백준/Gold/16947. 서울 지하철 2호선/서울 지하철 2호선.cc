@@ -1,42 +1,44 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <memory.h>
 
 using namespace std;
 
 int n;
 vector<int> navers[3001];
 int degree[3001];
-bool visited[3001];
+int dist[3001];
 
-int BFS(int start)
+void BFS(int start)
 {
 	queue<pair<int, int>> q;
 	q.push({start, 0});
+	bool visited[3001] = {};
 	visited[start] = true;
 	
-	int ret = -1;
 	while (!q.empty())
 	{
 		int cur = q.front().first;
-		int dist = q.front().second;
+		int d = q.front().second;
 		q.pop();
 
-		if (2 == degree[cur])
-		{
-			ret = dist;
-			break;
-		}
+		dist[cur] = d;
 
 		for (int naver : navers[cur])
 		{
 			if (visited[naver])	continue;
 			visited[naver] = true;
-			q.push({ naver, dist + 1 });
+
+			if (2 == degree[naver])
+			{
+				q.push({ naver, 0 });
+			}
+			else
+			{
+				q.push({ naver, d + 1 });
+			}
 		}
 	}
-	return ret;
 }
 
 int main()
@@ -76,11 +78,19 @@ int main()
 		}
 	}
 
+
 	for (int i = 1; i <= n; ++i)
 	{
-		memset(visited, 0, sizeof(visited));
+		if (2 == degree[i])
+		{
+			BFS(i);
+			break;
+		}
+	}
 
-		cout << BFS(i) << ' ';
+	for (int i = 1; i <= n; ++i)
+	{
+		cout << dist[i] << ' ';
 	}
 	cout << endl;
 }
