@@ -10,27 +10,20 @@ int main()
 {
 	cin.tie(nullptr); ios::sync_with_stdio(false);
 	cin >> n;
-	for (int i = 1; i < n; ++i)
+	for (int i = 0; i < n - 1; ++i)
 	{
-		cin >> road[i - 1];
+		cin >> road[i];
 	}
 	for (int i = 0; i < n; ++i)
 	{
 		cin >> oilCost[i];
 	}
 
-	int curCity = 0;
-	int curCost = oilCost[0];
 	long long ans = 0;
-	while (true)
+	for (int i = 0, cost = 1000000000; i < n - 1; ++i)
 	{
-		ans += road[curCity] * curCost;
-		++curCity;
-		if (curCity == n)
-		{
-			break;
-		}
-		curCost = min(curCost, oilCost[curCity]);
+		cost = min(cost, oilCost[i]);
+		ans += (long long)road[i] * cost;
 	}
 	cout << ans << endl;
 }
