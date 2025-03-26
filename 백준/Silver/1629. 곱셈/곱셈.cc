@@ -2,17 +2,25 @@
 
 using namespace std;
 
-long long Solve(long long& a, long long b, long long& c){
-    if(b==1) return a % c;
+long long a,b,c;
+
+long long Mul(long long n, long long m)
+{
+    if(m==0)    return 1;
+    if(m==1)    return a % c;
     
-    long long temp = Solve(a, b/2, c);
-    // cout<<temp<<endl;
-    if(b%2) return temp % c * temp % c * a % c;
-    else    return temp % c * temp % c % c;
+    long long ret = Mul(n, m/2);
+    ret = (ret % c) * (ret % c) % c;
+    if(m%2) 
+    {
+        ret *= (a % c);
+    }
+    
+    return ret %= c;
 }
 
-int main(){
-    long long a,b,c;
+int main()
+{
     cin>>a>>b>>c;
-    cout<<Solve(a,b,c)<<endl;
+    cout<<Mul(a,b)<<endl;
 }
