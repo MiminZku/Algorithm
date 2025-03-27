@@ -1,83 +1,61 @@
 #include <iostream>
-#include <queue>
+#include <memory.h>
+
 using namespace std;
 
-void BFS(bool (&field)[50][50], pair<int, int> idx, int n, int m) {
-   // bfs에 쓰일 큐
-   queue<pair<int, int>> q;
-   q.push(idx);
+int m, n, k;
+bool farm[50][50];
+bool visited[50][50];
 
-   int i, j;
-   pair<int, int> tmp;
+int dy[] = { -1,1,0,0 };
+int dx[] = { 0,0,-1,1 };
 
-   while (!q.empty()) {
-      tmp = q.front();
-      // 인접한 애들 큐에 넣어줌 .. 이게 맞나
-      if (tmp.second != m - 1 && field[tmp.first][tmp.second + 1])
-         if(field[tmp.first][tmp.second] == 1)
-            q.push(make_pair(tmp.first, tmp.second + 1));
-      if (tmp.second != 0 && field[tmp.first][tmp.second - 1]) 
-         if(field[tmp.first][tmp.second] == 1)
-            q.push(make_pair(tmp.first, tmp.second - 1));
-      if (tmp.first != n - 1 && field[tmp.first + 1][tmp.second])
-         if(field[tmp.first][tmp.second] == 1)
-            q.push(make_pair(tmp.first + 1, tmp.second));
-      if (tmp.first != 0 && field[tmp.first - 1][tmp.second])
-         if(field[tmp.first][tmp.second] == 1)
-            q.push(make_pair(tmp.first - 1, tmp.second));
-      // field 수정후 pop
-      field[tmp.first][tmp.second] = 0;
-      q.pop();
-   }
+void DFS(int row, int col)
+{
+	visited[row][col] = true;
+	for (int i = 0; i < 4; ++i)
+	{
+		int ny = dy[i] + row;
+		int nx = dx[i] + col;
+		if (ny < 0 || nx < 0 || ny >= n || nx >= m)	continue;
+		if (farm[ny][nx] == false)	continue;
+		if (visited[ny][nx])	continue;
+		DFS(ny, nx);
+	}
 }
 
-int main() {
-   ios_base::sync_with_stdio(false);
-   cin.tie(NULL);
-   cout.tie(NULL);
+int main()
+{
+	cin.tie(nullptr); ios::sync_with_stdio(false);
 
-   int t;
-   int m, n, k;
-   int i, j;
+	int t;
+	cin >> t;
+	while (t--)
+	{
+		memset(farm, 0, sizeof(farm));
+		memset(visited, 0, sizeof(visited));
 
-   int wormCount = 0;
-   //bool** field = new bool*[50];
-   //for (int i = 0; i < 50; i++) field[i] = new bool[50];
-   bool field[50][50];
+		cin >> m >> n >> k;
+		
+		int x, y;
+		while (k--)
+		{
+			cin >> x >> y;
+			farm[y][x] = 1;
+		}
 
-   cin >> t;
-   while (t--) {
-      cin >> m >> n >> k;
-      // 밭 배열 생성 & 초기화
-      //field = new bool*[n];
-      //for (int a = 0; a < n; a++) field[a] = new bool[m];
-      for (int i = 0; i < n; i++) {
-         for (int j = 0; j < m; j++) {
-            field[i][j] = 0;
-         }
-      }
-      //for(int a = 0; a < n; a++) memset(field, false, sizeof(field));
-      //fill_n(&field[0][0], n * m, 0);
-      //fill(&field[0][0], &field[n - 1][m], 0);
-      
-      // 배추 심기
-      while (k--) {
-         // j가 x 즉 열 i 가 행 y
-         cin >> j >> i;
-         field[i][j] = 1;
-      }
-      // 밭 전체 탐색하면서 흰지렁이 탐색
-      for (int i = 0; i < n; i++) {
-         for (int j = 0; j < m; j++) {
-            if (field[i][j]) {
-               wormCount++;
-               //BFS
-               BFS(field, make_pair(i, j), n, m);
-            }
-         }
-      }
-      cout << wormCount << "\n";
-      wormCount = 0;
-   }
+		int ans = 0;
+		for (int i = 0; i < n; ++i)
+		{
+			for (int j = 0; j < m; ++j)
+			{
+				if (farm[i][j] == false)	continue;
+				if (visited[i][j])	continue;
+				DFS(i, j);
+				++ans;
+			}
+		}
 
+		cout << ans << '\n';
+	}
 }
