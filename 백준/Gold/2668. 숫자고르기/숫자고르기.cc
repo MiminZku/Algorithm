@@ -34,7 +34,7 @@ int main()
 
 	for (int i = 1; i <= n; ++i)
 	{
-		if (isCycle[i] || isCycle[arr[i]])	continue;
+		if (isCycle[i])	continue;
 		memset(visited, 0, sizeof(visited));
 		vector<int> vec;
 		if (DFS(i, i, vec))
