@@ -3,35 +3,32 @@
 using namespace std;
 
 int h, w;
-int arr[555];
-int preMax[555];
-int sufMax[555];
-int ans;
+int blocks[501];
 
 int main()
 {
-    cin.tie(nullptr); ios::sync_with_stdio(false);
-
+	cin.tie(nullptr); ios::sync_with_stdio(false);
     cin >> h >> w;
-    
-    for (int i = 1; i <= w; ++i)
+    for(int i=0; i<w; ++i)
     {
-        cin >> arr[i];
-        ans -= arr[i];  // 창고 다각형에서 블록 넓이 제외
+        cin >> blocks[i];
     }
 
-    for (int i = 1; i <= w; ++i)
+    int ans = 0;
+    for(int i=1; i<=h; ++i)
     {
-        preMax[i] = max(preMax[i - 1], arr[i]);
-    }
-    for (int i = w; i >= 1; --i)
-    {
-        sufMax[i] = max(sufMax[i + 1], arr[i]);
+        for(int j=0, k=-1; j<w; ++j)
+        {
+            if(blocks[j] >= i)
+            {
+                if(k >= 0)
+                {
+                    ans += j - k - 1;
+                }
+                k = j;
+            }
+        }
     }
 
-    for (int i = 1; i <= w; ++i)
-    {
-        ans += min(preMax[i], sufMax[i]);
-    }
     cout << ans << endl;
 }
