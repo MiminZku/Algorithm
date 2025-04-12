@@ -1,46 +1,56 @@
 #include <iostream>
+#include <string>
 #include <vector>
 
-using namespace std;
+using namespace std; 
 
-string str;
-string bomb;
-vector<char> stack;
+string str, bomb;
+vector<char> vec;
 
 int main()
 {
-    cin.tie(nullptr); ios::sync_with_stdio(false);
-    cin>>str>>bomb;
-    for(char ch : str)
-    {
-        stack.push_back(ch);
+    ios::sync_with_stdio(false);
+	cin >> str >> bomb;
+	int bombLen = bomb.length();
 
-        bool isBomb = true;
-        for(int i=0; i<bomb.size(); i++)
-        {
-            
-            if(stack.size()-bomb.size()+i < 0
-            || stack[stack.size()-bomb.size()+i] != bomb[i])
-            {
-                isBomb = false;
-                break;
-            }
-        }
+	for (char ch : str)
+	{
+		vec.push_back(ch);
 
-        if(isBomb)
-        {
-            for(int i=0; i<bomb.size(); i++)
-            {
-                stack.pop_back();
-            }
-        }
-    }
+		if (ch == bomb[bombLen - 1])
+		{
+			if (vec.size() < bombLen)	continue;
 
-    if(stack.size() == 0)    cout<<"FRULA\n";
-    else
-    {
-        for(char ch : stack)    cout<<ch;
-        cout<<endl;
-    }
+			bool isBomb = true;
+			for (int i = 0; i < bombLen; ++i)
+			{
+				if (vec[vec.size() - bombLen + i] != bomb[i])
+				{
+					isBomb = false;
+					break;
+				}
+			}
 
+			if (isBomb)
+			{
+				for (int i = 0; i < bombLen; ++i)
+				{
+					vec.pop_back();
+				}
+			}			
+		}
+	}
+
+	if (vec.size() == 0)
+	{
+		cout << "FRULA\n";
+	}
+	else
+	{
+		for (char ch : vec)
+		{
+			cout << ch;
+		}
+		cout << endl;
+	}
 }
