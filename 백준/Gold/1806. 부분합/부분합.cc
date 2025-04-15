@@ -2,38 +2,42 @@
 
 using namespace std;
 
-int n;
-int s;
-int arr[100001];
-int prefixSum[100001];
+int n, s;
+int arr[100000];
 
 int main()
 {
-	cin.tie(nullptr); ios::sync_with_stdio(false);
-	cin >> n;
-	cin >> s;
-	for (int i = 1; i <= n; ++i)
-	{
-		cin >> arr[i];
-		prefixSum[i] += prefixSum[i - 1] + arr[i];
-	}
+    cin.tie(nullptr); ios::sync_with_stdio(false);
+    cin >> n >> s;
+    for(int i=0; i<n; ++i)
+    {
+        cin >> arr[i];
+    }
 
-	int begin = 1;
-	int shortestLen = 999999;
-	for (int end = 1; end <= n && begin <= end;)
-	{
-		int sum = prefixSum[end] - prefixSum[begin - 1];
-		int len = end - begin + 1;
-		if (sum >= s)
-		{
-			++begin;
-			shortestLen = min(shortestLen, len);
-		}
-		else
-		{
-			++end;
-		}
-	}
-	
-	cout << ((999999 == shortestLen) ? 0 : shortestLen) << endl;
+    int l = 0, r = 0;
+    int sum = arr[0];
+    int ans = 111111;
+    while(r < n && l <= r)
+    {
+        if(sum < s)
+        {
+            r++;
+            sum += arr[r];
+        }
+        else
+        {
+            ans = min(ans, r - l + 1);
+            sum -= arr[l];
+            l++;
+        }
+    }
+
+    if(ans > 100000)
+    {
+        cout << 0 << endl;
+    }
+    else
+    {
+        cout << ans << endl;
+    }
 }
