@@ -3,34 +3,44 @@
 
 using namespace std;
 
-int n,r,q;
-vector<int> navers[100001];
-int treeSize[100001];
+int n, r, q;
+vector<int> childs[100001];
+int memo[100001];
 
-int MakeTree(int curNode, int parent){
-    int count = 1;
-    for(int& naver : navers[curNode]){
-        if(naver==parent)   continue;
-        count += MakeTree(naver, curNode);
-    }
-    return treeSize[curNode] = count;
+int DFS(int cur, int prev)
+{
+	if (memo[cur] != 0)
+	{
+		return memo[cur];
+	}
+
+	int ret = 1;
+	for (int child : childs[cur])
+	{
+		if (prev == child)	continue;
+		ret += DFS(child, cur);
+	}
+
+	return memo[cur] = ret;
 }
 
-int main(){
-    cin.tie(nullptr); ios::sync_with_stdio(false);
-    cin>>n>>r>>q;
-    for(int i=0; i<n-1; i++){
-        int a,b;
-        cin>>a>>b;
-        navers[a].push_back(b);
-        navers[b].push_back(a);
-    }
-    
-    MakeTree(r,0);
+int main()
+{
+	cin.tie(nullptr); ios::sync_with_stdio(false);
+	cin >> n >> r >> q;
+	for (int i = 1, u, v; i < n; ++i)
+	{
+		cin >> u >> v;
+		childs[u].push_back(v);
+		childs[v].push_back(u);
+	}
 
-    while(q--){
-        int k;
-        cin>>k;
-        cout<<treeSize[k]<<'\n';
-    }
+	DFS(r, 0);
+
+	int u;
+	while (q--)
+	{
+		cin >> u;
+		cout << memo[u] << '\n';
+	}
 }
