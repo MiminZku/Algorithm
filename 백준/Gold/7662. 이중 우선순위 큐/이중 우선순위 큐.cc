@@ -1,46 +1,58 @@
-#include <cstdio>
-#include <vector>
+#include <iostream>
 #include <set>
 
 using namespace std;
 
-typedef pair<char, int> Cmd;
 
-void Solve(vector<Cmd>& cmd_list){
-    multiset<int> ms;
-    for (Cmd cmd : cmd_list){
-        if(cmd.first == 'I'){
-            ms.insert(cmd.second);
-        }
-        else if(cmd.first == 'D'){
-            if(ms.empty())   continue;
-            if(cmd.second == 1){
-                ms.erase(--ms.end());
-            }
-            else if(cmd.second == -1){
-                ms.erase(ms.begin());
-            }
-        }
-    }
-    if(ms.empty())  printf("EMPTY\n");
-    else{
-        printf("%d %d\n",(*--ms.end()),(*ms.begin()));
-    }
-}
+int main()
+{
+	cin.tie(nullptr);
+	ios::sync_with_stdio(false);
 
-int main(){
-    int t;
-    scanf("%d", &t);
-    for(int i=0; i<t; i++){
+	int t;
+	cin >> t;
+	while (t--)
+	{
         int k;
-        scanf("%d", &k);
-        vector<Cmd> cmd_list;
-        for(int j=0; j<k; j++){
-            int c,n;
-            scanf(" %c %d",&c, &n);
-            cmd_list.push_back({c,n});
-        }
-        Solve(cmd_list);
-    }
-}
+        multiset<int> ms;
+		cin >> k;
+		char op;
+		int n;
+		for (int i = 0; i < k; ++i)
+		{
+			cin >> op >> n;
 
+			if (op == 'I')
+			{
+				ms.insert(n);
+			}
+			else
+			{
+				if (ms.empty())	continue;
+
+				if (n == 1)
+				{
+					auto iter = --ms.end();
+					ms.erase(iter);
+				}
+				else 
+				{
+					auto iter = ms.begin();
+					ms.erase(iter);
+				}
+			}
+		}
+
+		if (ms.empty())
+		{
+			cout << "EMPTY\n";
+		}
+		else
+		{
+			auto iter = --ms.end();
+			cout << *iter << ' ';
+			iter = ms.begin();
+			cout << *iter << endl;
+		}
+	}
+}
