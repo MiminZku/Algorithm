@@ -1,10 +1,12 @@
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
 int n;
-int nums[1000];
+vector<int> nums;
+vector<int> sums;
 
 int main()
 {
@@ -12,11 +14,20 @@ int main()
 	ios::sync_with_stdio(false);
 
 	cin >> n;
+	nums.resize(n);
 	for (int i = 0; i < n; ++i)
 	{
 		cin >> nums[i];
 	}
-	sort(nums, nums + n);
+	sort(nums.begin(), nums.end());
+	for (int i = 0; i < n; ++i)
+	{
+		for (int j = i; j < n; ++j)
+		{
+			sums.push_back(nums[i] + nums[j]);
+		}
+	}
+	sort(sums.begin(), sums.end());
 
 	int targetIdx = n - 1;
 	while (true)
@@ -24,24 +35,10 @@ int main()
 		int targetNum = nums[targetIdx];
 		for (int i = 0; i < targetIdx; ++i)
 		{
-			int l = i;
-			int r = targetIdx - 1;
-			while (l <= r)
+			if (binary_search(sums.begin(), sums.end(), targetNum - nums[i]))
 			{
-				int sum = nums[i] + nums[l] + nums[r];
-				if (sum > targetNum)
-				{
-					r--;
-				}
-				else if (sum < targetNum)
-				{
-					l++;
-				}
-				else
-				{
-					cout << targetNum << endl;
-					return 0;
-				}
+				cout << targetNum << endl;
+				return 0;
 			}
 		}
 		targetIdx--;
