@@ -21,28 +21,26 @@ int main()
 	}
 
 	vector<bool> visited(n + 1);
-	visited[1] = true;
-	for (const pair<int, int>& p : navers[1])
-	{
-		pq.push({ -p.second, p.first });
-	}
+	pq.push({ 0, 1 });
 
 	int ans = 0;
 	while (!pq.empty())
 	{
 		int cost = -pq.top().first;
-		int newNode = pq.top().second;
+		int cur = pq.top().second;
 		pq.pop();
 
-		if (visited[newNode])
+		if (visited[cur])
 		{
 			continue;
 		}
-
+		
+		visited[cur] = true;
 		ans += cost;
-		visited[newNode] = true;
-		for (const pair<int, int>& p : navers[newNode])
+
+		for (const pair<int, int>& p : navers[cur])
 		{
+			if (visited[p.first])	continue;
 			pq.push({ -p.second, p.first });
 		}
 	}
