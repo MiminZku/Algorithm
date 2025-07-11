@@ -1,53 +1,47 @@
 #include <iostream>
 #include <algorithm>
 #include <queue>
-#include <vector>
 
 using namespace std;
 
-#define MAX 300001
+int n, k;
 
-int N;
-int K;
+pair<int, int> jewels[300'001];
+int bag[300'001];
 
-pair<int, int> jewels[MAX];
-int bag[MAX];
-priority_queue<int> pq;
-
-long long solve() 
+int main() 
 {
-    sort(jewels, jewels + N);
-    sort(bag, bag + K);
-
-    long long sum = 0;
-    int idx = 0;
-    for (int i = 0; i < K; ++i) 
+    cin.tie(nullptr); 
+    ios::sync_with_stdio(false);
+    
+    cin >> n >> k;
+    for (int i = 0; i < n; ++i) 
     {
-        while (idx < N && bag[i] >= jewels[idx].first)
+        cin >> jewels[i].first >> jewels[i].second;
+    }
+    for (int i = 0; i < k; ++i) 
+    {
+        cin >> bag[i];
+    }
+
+    sort(jewels, jewels + n);
+    sort(bag, bag + k);
+
+    priority_queue<int> pq;
+    int idx = 0;
+    long long ans = 0;
+    for (int i = 0; i < k; i++)
+    {
+        while (idx < n && jewels[idx].first <= bag[i])
         {
             pq.push(jewels[idx].second);
             idx++;
         }
-        if (!pq.empty()) 
+        if (!pq.empty())
         {
-            sum += pq.top();
+            ans += pq.top();
             pq.pop();
         }
     }
-    return sum;
-}
-
-int main() 
-{
-    cin.tie(nullptr); ios::sync_with_stdio(false);
-    cin >> N >> K;
-    for (int i = 0; i < N; ++i) 
-    {
-        cin >> jewels[i].first >> jewels[i].second;
-    }
-    for (int i = 0; i < K; ++i) 
-    {
-        cin >> bag[i];
-    }
-    cout << solve() << endl;
+    cout << ans << endl;
 }
