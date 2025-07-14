@@ -14,7 +14,7 @@ int Recur(int rowLen, int colLen, bool isBlack)
 	}
 	if (rowLen == 1 && colLen == 1)
 	{
-		return isBlack ? 1 : -1;
+		return -1;
 	}
 
 	if (visited[rowLen][colLen][isBlack])
@@ -51,5 +51,10 @@ int main()
 
 	cin >> p >> q;
 
+    if(p == 1 && q == 1)
+    {
+        cout << 1 << endl;
+        return 0;
+    }
 	cout << Recur(p, q, true) << endl;
 }
