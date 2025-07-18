@@ -1,5 +1,5 @@
 #include <iostream>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -15,7 +15,7 @@ int main()
 		cin >> belt[i];
 	}
 
-	map<int, int> sushiCnt;
+	unordered_map<int, int> sushiCnt;
 	sushiCnt[c] = 3333333;
 	for (int i = 0; i < k; ++i)
 	{
