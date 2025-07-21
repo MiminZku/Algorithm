@@ -39,10 +39,7 @@ int main()
 		}
 	}
 
-	for (int i = 0; i < n; ++i)
-	{
-		DFS(1, 0, 0, 0);
-	}
+	DFS(1, 0, 0, 0);	
 
 	cout << ans << endl;
 }
