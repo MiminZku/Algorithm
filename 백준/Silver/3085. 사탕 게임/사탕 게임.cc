@@ -3,7 +3,7 @@
 using namespace std;
 
 int n;
-int mat[50][50];
+char mat[50][50];
 int ans;
 
 int Calculate()
@@ -45,16 +45,11 @@ int main()
 
 	cin >> n;
 	cin.ignore();
-	char ch;
 	for (int i = 0; i < n; ++i)
 	{
 		for (int j = 0; j < n; ++j)
 		{
-			cin >> ch;
-			if (ch == 'C')		mat[i][j] = 0;
-			else if (ch == 'P') mat[i][j] = 1;
-			else if (ch == 'Z') mat[i][j] = 2;
-			else if (ch == 'Y') mat[i][j] = 3;
+			cin >> mat[i][j];
 		}
 	}
 
