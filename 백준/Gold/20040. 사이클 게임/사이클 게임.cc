@@ -4,7 +4,6 @@ using namespace std;
 
 int n, m;
 int parent[500'000];
-bool visited[500'000];
 
 int Find(int a)
 {
@@ -40,12 +39,12 @@ int main()
 	for (int i = 0, a, b; i < m; ++i)
 	{
 		cin >> a >> b;
-		if (!check && Find(a) == Find(b) && visited[a] && visited[b])
+		if (!check && Find(a) == Find(b))
 		{
 			check = true;
 			ans = i + 1;
 		}
-		visited[a] = visited[b] = true;
+		if(check) continue;
 		Union(a, b);
 	}
 
