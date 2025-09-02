@@ -1,57 +1,69 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-int DFS(int wish[], int team[], int idx, int teamNum)
+int DFS(int idx, int teamNum, const vector<int>& wish, vector<int>& team)
 {
     team[idx] = teamNum;
-    if(team[wish[idx]])
+    if (team[wish[idx]])
     {
         team[idx] = -1;
         return wish[idx];
     }
-    int lastIdx = DFS(wish, team, wish[idx], teamNum);
-    if(lastIdx == idx)
+    
+    int lastIdx = DFS(wish[idx], teamNum, wish, team);
+    if (lastIdx == idx)
     {
-        int tempIdx = wish[idx];
-        while(tempIdx != idx)
+        int next = wish[idx];
+        while (next != idx)
         {
-            team[tempIdx] = teamNum;
-            tempIdx = wish[tempIdx];
+            team[next] = teamNum;
+            next = wish[next];
         }
     }
     else
+    {
         team[idx] = -1;
+    }
+
     return lastIdx;
 }
 
-int main(){
+int main() 
+{
     cin.tie(nullptr); ios::sync_with_stdio(false);
     int t;
-    cin>>t;
-    while(t--)
+    cin >> t;
+    while (t--)
     {
         int n;
-        cin>>n;
-        int wish[n+1] = {};
-        int team[n+1] = {};
+        cin >> n;
+        vector<int> wish(n + 1);
+        vector<int> team(n + 1, 0);
         int teamNum = 1;
-        for(int i=1; i<=n; i++)
+        for (int i = 1; i <= n; i++)
         {
-            cin>>wish[i];
-            if(i==wish[i])  team[i] = teamNum++;
+            cin >> wish[i];
+            if (i == wish[i])
+            {
+                team[i] = teamNum++;
+            }
         }
-        for(int i=1; i<=n; i++)
+        for (int i = 1; i <= n; i++)
         {
-            if(team[i])    continue;
-            DFS(wish, team, i, teamNum++);
+            if (team[i] != 0)    continue;
+            DFS(i, teamNum++, wish, team);
         }
-        
-        int result = 0;
-        for(int i=1; i<=n; i++)
+
+        int ans = 0;
+        for (int i = 1; i <= n; i++)
         {
-            if(team[i]<0)  result += 1;
+            if (team[i] < 0)
+            {
+                ans++;
+            }
         }
-        cout<<result<<'\n';
+        cout << ans << '\n';
     }
 }
